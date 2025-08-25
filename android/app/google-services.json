@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "77490246666",
+    "project_id": "robert-flutter-course-db",
+    "storage_bucket": "robert-flutter-course-db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77490246666:android:a27d60756f3081f893bbf3",
+        "android_client_info": {
+          "package_name": "com.example.flutter_course_ecommerce_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2hfxbdDcpR_Atjr4Rh5mKwz_DfmjCoUU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77490246666:android:5f28fbaaab54de1293bbf3",
+        "android_client_info": {
+          "package_name": "com.example.login_screen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2hfxbdDcpR_Atjr4Rh5mKwz_DfmjCoUU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
