@@ -5,11 +5,12 @@ import 'package:flutter_course_ecommerce_project/items/form_input.dart';
 import 'package:flutter_course_ecommerce_project/items/regex.dart';
 import 'package:flutter_course_ecommerce_project/items/wide_button.dart';
 import 'package:flutter_course_ecommerce_project/screens/main_screen.dart';
+import 'package:flutter_course_ecommerce_project/screens/password_reset_screen.dart';
 import 'package:flutter_course_ecommerce_project/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-  static const String routeName = 'login';
+  static const String routeName = '/login';
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -23,98 +24,100 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/bg1.jpg'),
-          fit: BoxFit.fill,
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 80),
-                  child: Text(
-                    "Welcome Back!",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 35,
-                    ),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Form(
+        key: formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 80),
+                child: Text(
+                  "Welcome Back!",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 35,
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Don't have an account? ",
-                      style: TextStyle(fontSize: 15),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account? ",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pushReplacementNamed(
+                      context,
+                      RegisterScreen.routeName,
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, RegisterScreen.routeName);
-                      },
-                      child: Text("Sign up", style: TextStyle(fontSize: 15)),
-                    ),
-                  ],
+                    child: Text("Sign up", style: TextStyle(fontSize: 15)),
+                  ),
+                ],
+              ),
+              SizedBox(height: 50),
+              FormInput(
+                controller: emailController,
+                label: "Email",
+                keboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  // ignore: unnecessary_null_comparison
+                  if (value!.isEmpty || value == null) {
+                    return "Please, enter your email address.";
+                  }
+                  if (!isValidEmail(value)) {
+                    return "Please, enter a valid email address.";
+                  }
+                  return null;
+                },
+              ),
+              FormInput(
+                controller: passwordController,
+                label: "Password",
+                keboardType: TextInputType.visiblePassword,
+                isPass: true,
+                validator: (value) {
+                  // ignore: unnecessary_null_comparison
+                  if (value!.isEmpty || value == null) {
+                    return "Please, enter your password.";
+                  }
+                  if (value.length < 8) {
+                    return "Please, enter a strong password (min. 8 characters)";
+                  }
+                  return null;
+                },
+              ),
+              TextButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, ResetPasswordScreen.routeName),
+                child: Text(
+                  "I forgot my password.",
+                  style: TextStyle(fontSize: 15),
                 ),
-                SizedBox(height: 50),
-                FormInput(
-                  controller: emailController,
-                  label: "Email",
-                  keboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    // ignore: unnecessary_null_comparison
-                    if (value!.isEmpty || value == null) {
-                      return "Please, enter your email address.";
-                    }
-                    if (!isValidEmail(value)) {
-                      return "Please, enter a valid email address.";
-                    }
-                    return null;
-                  },
-                ),
-                FormInput(
-                  controller: passwordController,
-                  label: "Password",
-                  keboardType: TextInputType.visiblePassword,
-                  isPass: true,
-                  validator: (value) {
-                    // ignore: unnecessary_null_comparison
-                    if (value!.isEmpty || value == null) {
-                      return "Please, enter your password.";
-                    }
-                    if (value.length < 8) {
-                      return "Please, enter a strong password (min. 8 characters)";
-                    }
-                    return null;
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: isLoading
-                      ? CircularProgressIndicator()
-                      : WideButton(
-                          label: Text(
-                            "Log in",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: isLoading
+                    ? CircularProgressIndicator()
+                    : WideButton(
+                        icon: Icon(Icons.login, color: Colors.white),
+                        label: Text(
+                          "Log in",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
-                          function: () {
-                            login(context);
-                          },
                         ),
-                ),
-              ],
-            ),
+                        function: () {
+                          login(context);
+                        },
+                      ),
+              ),
+            ],
           ),
         ),
       ),
@@ -128,22 +131,25 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       try {
         // Sign in user
+        // ignore: unused_local_variable
         UserCredential userCredential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
               email: emailController.text.trim(),
               password: passwordController.text.trim(),
             );
 
-        User? user = userCredential.user;
+        // User? user = userCredential.user;
+
+        if (!mounted) return; // screen might have been popped while waiting
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Signed In Successfully!')),
         );
 
-        Navigator.pushReplacementNamed(
+        Navigator.pushNamedAndRemoveUntil(
           context,
           MainScreen.routeName,
-          arguments: user?.uid, // pass only UID
+          (route) => false,
         );
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {

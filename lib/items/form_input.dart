@@ -26,6 +26,7 @@ class _FormInputState extends State<FormInput> {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: TextFormField(
+        // autovalidateMode: AutovalidateMode.onUserInteraction,
         controller: widget.controller,
         validator: widget.validator!,
         obscureText: widget.isPass ? isObscure : false,

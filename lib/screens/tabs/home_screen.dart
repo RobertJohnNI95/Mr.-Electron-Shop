@@ -8,26 +8,18 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/bg1.jpg'),
-          fit: BoxFit.fill,
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(91, 187, 186, 186),
+      body: ListView.separated(
+        itemBuilder: (context, index) => ShopCard(
+          id: index + 1,
+          image: shopList[index].image,
+          label: shopList[index].label,
+          price: shopList[index].price,
+          rating: shopList[index].rating,
         ),
-      ),
-      child: Scaffold(
-        backgroundColor: const Color.fromARGB(91, 187, 186, 186),
-        body: ListView.separated(
-          itemBuilder: (context, index) => ShopCard(
-            id: index + 1,
-            image: shopList[index].image,
-            label: shopList[index].label,
-            price: shopList[index].price,
-            rating: shopList[index].rating,
-          ),
-          separatorBuilder: (context, index) => SizedBox(),
-          itemCount: shopList.length,
-        ),
+        separatorBuilder: (context, index) => SizedBox(),
+        itemCount: shopList.length,
       ),
     );
   }

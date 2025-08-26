@@ -57,8 +57,8 @@ dev_dependencies:
 flutter_native_splash:
   color: "#ffffff" # background color
   image: assets/shababna.jpg # path to your splash icon
-  android: true
-  ios: true
+  android: false
+  ios: false
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

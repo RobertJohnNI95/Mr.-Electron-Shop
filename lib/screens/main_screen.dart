@@ -5,7 +5,7 @@ import 'package:flutter_course_ecommerce_project/screens/tabs/profile_screen.dar
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
-  static const String routeName = 'main';
+  static const String routeName = '/main';
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -24,6 +24,7 @@ class _MainScreenState extends State<MainScreen> {
     ];
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.blue,
         centerTitle: true,

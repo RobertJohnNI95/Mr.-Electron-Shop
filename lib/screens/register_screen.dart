@@ -6,15 +6,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_course_ecommerce_project/items/form_input.dart';
 import 'package:flutter_course_ecommerce_project/items/regex.dart';
 import 'package:flutter_course_ecommerce_project/items/wide_button.dart';
-import 'package:flutter_course_ecommerce_project/screens/main_screen.dart';
 import 'package:flutter_course_ecommerce_project/screens/login_screen.dart';
+import 'package:flutter_course_ecommerce_project/screens/main_screen.dart';
+// import 'package:flutter_course_ecommerce_project/screens/login_screen.dart';
 // import 'package:image_picker/image_picker.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
-  static const String routeName = 'register';
+  static const String routeName = '/register';
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -46,140 +47,133 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/bg1.jpg'),
-          fit: BoxFit.fill,
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 80),
-                const Text(
-                  "Welcome!",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 35,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Form(
+        key: formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 80),
+              const Text(
+                "Welcome!",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 35,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Already have an account? ",
+                    style: TextStyle(fontSize: 15),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Already have an account? ",
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, LoginScreen.routeName);
-                      },
-                      child: const Text(
-                        "Log in",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                  ],
-                ),
-
-                /*
-                // 🔹 Profile Image Picker
-                GestureDetector(
-                  onTap: _pickImage,
-                  child: CircleAvatar(
-                    radius: 45,
-                    backgroundImage: _selectedImage != null
-                        ? FileImage(_selectedImage!)
-                        : null,
-                    child: _selectedImage == null
-                        ? const Icon(Icons.add_a_photo, size: 40)
-                        : null,
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        LoginScreen.routeName,
+                      );
+                    },
+                    child: const Text("Log in", style: TextStyle(fontSize: 15)),
                   ),
-                ),
-                */
-                const SizedBox(height: 30),
+                ],
+              ),
 
-                FormInput(
-                  controller: usernameController,
-                  label: "Username",
-                  keboardType: TextInputType.text,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Please, enter your name.";
-                    }
-                    if (value.length < 6) {
-                      return "Please, enter a valid name";
-                    }
-                    return null;
-                  },
+              /*
+              // Profile Image Picker
+              GestureDetector(
+                onTap: _pickImage,
+                child: CircleAvatar(
+                  radius: 45,
+                  backgroundImage: _selectedImage != null
+                      ? FileImage(_selectedImage!)
+                      : null,
+                  child: _selectedImage == null
+                      ? const Icon(Icons.add_a_photo, size: 40)
+                      : null,
                 ),
-                FormInput(
-                  controller: emailController,
-                  label: "Email",
-                  keboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Please, enter your email address.";
-                    }
-                    if (!isValidEmail(value)) {
-                      return "Please, enter a valid email address.";
-                    }
-                    return null;
-                  },
-                ),
-                FormInput(
-                  controller: passwordController,
-                  label: "Password",
-                  keboardType: TextInputType.visiblePassword,
-                  isPass: true,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "Please, enter your password.";
-                    }
-                    if (value.length < 8) {
-                      return "Please, enter a strong password (min. 8 characters)";
-                    }
-                    return null;
-                  },
-                ),
-                FormInput(
-                  controller: passwordConfirmController,
-                  label: "Confirm Password",
-                  keboardType: TextInputType.visiblePassword,
-                  isPass: true,
-                  validator: (value) {
-                    if (value != passwordController.text) {
-                      return "Password does not match";
-                    }
-                    return null;
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: isLoading
-                      ? const CircularProgressIndicator()
-                      : WideButton(
-                          label: const Text(
-                            "Sign Up",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+              ),
+              */
+              const SizedBox(height: 30),
+
+              FormInput(
+                controller: usernameController,
+                label: "Username",
+                keboardType: TextInputType.text,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please, enter your name.";
+                  }
+                  if (value.length < 6) {
+                    return "Please, enter a valid name";
+                  }
+                  return null;
+                },
+              ),
+              FormInput(
+                controller: emailController,
+                label: "Email",
+                keboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please, enter your email address.";
+                  }
+                  if (!isValidEmail(value)) {
+                    return "Please, enter a valid email address.";
+                  }
+                  return null;
+                },
+              ),
+              FormInput(
+                controller: passwordController,
+                label: "Password",
+                keboardType: TextInputType.visiblePassword,
+                isPass: true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please, enter your password.";
+                  }
+                  if (value.length < 8) {
+                    return "Please, enter a strong password (min. 8 characters)";
+                  }
+                  return null;
+                },
+              ),
+              FormInput(
+                controller: passwordConfirmController,
+                label: "Confirm Password",
+                keboardType: TextInputType.visiblePassword,
+                isPass: true,
+                validator: (value) {
+                  if (value != passwordController.text) {
+                    return "Password does not match";
+                  }
+                  return null;
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: isLoading
+                    ? const CircularProgressIndicator()
+                    : WideButton(
+                        icon: Icon(Icons.person, color: Colors.white),
+                        label: const Text(
+                          "Sign Up",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
-                          function: () {
-                            signup();
-                          },
                         ),
-                ),
-              ],
-            ),
+                        function: () {
+                          signup();
+                        },
+                      ),
+              ),
+            ],
           ),
         ),
       ),
@@ -202,11 +196,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
         User? user = FirebaseAuth.instance.currentUser;
         user?.updateDisplayName(usernameController.text);
 
+        if (!mounted) return; // screen might have been popped while waiting
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Account Created Successfully!')),
         );
 
-        Navigator.pushNamed(context, MainScreen.routeName);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          MainScreen.routeName,
+          (route) => false,
+        );
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           ScaffoldMessenger.of(
