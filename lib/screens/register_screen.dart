@@ -1,6 +1,9 @@
-// ignore_for_file: unnecessary_null_comparison, use_build_context_synchronously
+// ignore_for_file: unnecessary_null_comparison, use_build_context_synchronously, avoid_print
 
-// import 'dart:io';
+import 'dart:convert';
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_course_ecommerce_project/items/form_input.dart';
@@ -8,10 +11,7 @@ import 'package:flutter_course_ecommerce_project/items/regex.dart';
 import 'package:flutter_course_ecommerce_project/items/wide_button.dart';
 import 'package:flutter_course_ecommerce_project/screens/login_screen.dart';
 import 'package:flutter_course_ecommerce_project/screens/main_screen.dart';
-// import 'package:flutter_course_ecommerce_project/screens/login_screen.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -31,7 +31,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isLoading = false;
   final formKey = GlobalKey<FormState>();
 
-  /*
   File? _selectedImage;
   final ImagePicker _picker = ImagePicker();
 
@@ -43,7 +42,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
     }
   }
-  */
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +80,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
 
-              /*
               // Profile Image Picker
               GestureDetector(
                 onTap: _pickImage,
@@ -96,7 +93,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       : null,
                 ),
               ),
-              */
               const SizedBox(height: 30),
 
               FormInput(
@@ -186,6 +182,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isLoading = true;
       });
       try {
+        print("Starting signup...");
+
         // ignore: unused_local_variable
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
@@ -194,9 +192,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
             );
 
         User? user = FirebaseAuth.instance.currentUser;
-        user?.updateDisplayName(usernameController.text);
 
-        if (!mounted) return; // screen might have been popped while waiting
+        if (user != null) {
+          print("Got user: ${user.uid}");
+
+          // ✅ Convert image to Base64
+          String? photoBase64;
+          if (_selectedImage != null) {
+            final bytes = await _selectedImage!.readAsBytes();
+            photoBase64 = base64Encode(bytes);
+          }
+
+          // 2️⃣ Save Firestore user profile
+          await FirebaseFirestore.instance
+              .collection("users")
+              .doc(user.uid)
+              .set({
+                "username": usernameController.text.trim(),
+                "email": emailController.text.trim(),
+                "photoBase64": photoBase64, // <-- stored as text
+                "createdAt": FieldValue.serverTimestamp(),
+              });
+          print("Firestore write done");
+
+          // 3️⃣ Update FirebaseAuth display name
+          await user.updateDisplayName(usernameController.text.trim());
+          print("Display name updated");
+        }
+
+        if (!mounted) return;
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Account Created Successfully!')),
@@ -218,7 +242,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           );
         }
       } catch (e) {
-        // ignore: avoid_print
         print(e);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Account Creation Failed!')),
