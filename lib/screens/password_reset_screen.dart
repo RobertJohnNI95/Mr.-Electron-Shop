@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_course_ecommerce_project/items/form_input.dart';
 import 'package:flutter_course_ecommerce_project/items/regex.dart';
 import 'package:flutter_course_ecommerce_project/items/wide_button.dart';
-// import 'package:flutter_course_ecommerce_project/screens/login_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   static const String routeName = '/reset-password';
