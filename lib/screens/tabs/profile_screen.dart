@@ -1,4 +1,3 @@
-// profile_screen.dart
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'dart:convert';
@@ -215,23 +214,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 20),
                     // Profile picture (with options)
                     Center(
-                      child: GestureDetector(
-                        onTap: _showImageOptions,
-                        child: CircleAvatar(
-                          radius: 75,
-                          backgroundImage: imageBytes != null
-                              ? MemoryImage(imageBytes!)
-                              : null,
-                          child: imageBytes == null
-                              ? const Icon(Icons.person, size: 80)
-                              : null,
-                        ),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: _showImageOptions,
+                            child: CircleAvatar(
+                              radius: 75,
+                              backgroundImage: imageBytes != null
+                                  ? MemoryImage(imageBytes!)
+                                  : null,
+                              child: imageBytes == null
+                                  ? const Icon(Icons.person, size: 80)
+                                  : null,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            "Tap picture to change",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 50),
                     // Username
                     const Text(
-                      "Username:",
+                      "Username (Tap to change):",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
@@ -255,7 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Text(
                       userData?["email"] ?? user?.email ?? "Unknown",
-                      style: const TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 18),
                     ),
                   ],
                 ),

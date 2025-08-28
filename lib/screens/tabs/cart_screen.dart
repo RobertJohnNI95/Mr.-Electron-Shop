@@ -34,12 +34,21 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(91, 187, 186, 186),
       bottomNavigationBar: Container(
-        height: 60,
+        height: 90,
         width: double.infinity,
         padding: EdgeInsets.all(10),
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Text(
+              "Total: \$ ${double.parse(totalPrice.toStringAsFixed(2))}",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(width: 10),
             Expanded(
               child: WideButton(
                 icon: Icon(Icons.shopping_cart_checkout, color: Colors.white),
@@ -82,15 +91,6 @@ class _CartScreenState extends State<CartScreen> {
                     print("Checkout done!");
                   }
                 },
-              ),
-            ),
-            SizedBox(width: 10),
-            Text(
-              "\$ ${double.parse(totalPrice.toStringAsFixed(2))}",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
               ),
             ),
           ],

@@ -39,6 +39,9 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: tabs[currentTab],
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
+        selectedItemColor: Colors.blueAccent.shade400,
+        backgroundColor: Colors.transparent,
         currentIndex: currentTab,
         onTap: (tab) {
           setState(() {
